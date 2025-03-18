@@ -4,6 +4,7 @@ import com.hms.entity.AppUser;
 import com.hms.repository.AppUserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,7 +19,7 @@ public class UserController {
         this.appUserRepository = appUserRepository;
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("/signup")
     public ResponseEntity<?> createUser(@RequestBody AppUser user){
         Optional<AppUser> opUsername = appUserRepository.findByUsername(user.getUserName());
         if(opUsername.isPresent()){
@@ -30,6 +31,8 @@ public class UserController {
         if(opEmail.isPresent()){
             return new ResponseEntity<>("Email already taken", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        String encryptedPasword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(5));
+        user.setPassword(encryptedPasword);
         AppUser savedUser = appUserRepository.save(user);
         return new ResponseEntity<>(savedUser,HttpStatus.CREATED);
     }
