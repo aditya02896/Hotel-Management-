@@ -38,4 +38,9 @@ public class UserController {
     public String getMassage(){
         return "hello";
     }
+
+    @GetMapping
+    public  String name(){
+        return "aditya";
+    }
 }
