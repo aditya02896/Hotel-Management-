@@ -1,9 +1,5 @@
 package com.hms.entity;
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "app_user")
 public class AppUser {
@@ -17,7 +13,7 @@ public class AppUser {
     private String email;
     @Column(name = "password", nullable = false, length = 1000)
     private String password;
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username",nullable = false, unique = true)
     private String username;
 
     public long getId() {
